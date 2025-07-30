@@ -19,8 +19,10 @@ function App() {
   const [curValue, setCurValue] = useState<string>('0');
   const [storedValue, setStoredValue] = useState<number>(0);
   const [lastOp, setLastOp] = useState<OpType>(OpType.NONE);
+  const [hasPar, setHasPar] = useState<boolean>(false);
 
   let hasDecimal: boolean = false;
+
 
   function RemoveLast() {
     if (curValue === '0') return;
@@ -45,14 +47,13 @@ function App() {
       return;
     }
 
-    if (value === '.') {
-      if (hasDecimal) return;
-      hasDecimal = true;
-      setCurValue('0.');
-      return;
+    if (value === '(') {
+      setHasPar(true);
     }
 
-    if (curValue === '0') {
+    if (value === '.' && hasDecimal) return;
+
+    if (curValue === '0' && value !== '.') {
       setCurValue(value.toString());
       return;
     }
@@ -119,7 +120,7 @@ function App() {
       <div className='btn_container'>
 
         <Button className='ac_btn' title='AC' onClick={Clear} />
-        <Button className="op_btn" title='( )' onClick={() => SetValue(7)} />
+        <Button className="op_btn" title='( )' onClick={() => SetValue('(')} />
 
         <Button className='op_btn' title='%' onClick={() => SetOp(OpType.MOD)} />
         <Button className='op_btn' title='/' onClick={() => SetOp(OpType.DIV)} />
