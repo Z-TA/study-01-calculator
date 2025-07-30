@@ -21,6 +21,17 @@ function App() {
   const [lastOp, setLastOp] = useState<OpType>(OpType.NONE);
   const [hasDecimal, setHasDecimal] = useState<boolean>(false);
 
+  function TruncateDecimal(value: string, decimals: number): string {
+    const [intPart, decimalPart = ""] = value.split(".");
+
+    if (decimals === 0) return intPart;
+
+    const truncated = decimalPart.slice(0, decimals);
+    return `${intPart}.${truncated}`;
+  }
+
+
+
   function RemoveLast() {
     if (curValue === '0') return;
     if (curValue === '.') {
@@ -38,6 +49,8 @@ function App() {
   }
 
   function SetValue(value: number | string) {
+
+
 
     if (value === '.') {
       if (curValue.includes('.')) {
@@ -64,7 +77,11 @@ function App() {
       console.log(trimmedStr);
       return;
     }
-    setCurValue(curValue + value);
+    let fullValue = curValue + value;
+    if (hasDecimal) {
+      fullValue = TruncateDecimal(fullValue, 10);
+    }
+    setCurValue(fullValue);
   }
 
   function SetOp(op: OpType) {
@@ -78,31 +95,34 @@ function App() {
   }
 
   function ShowResult() {
-    if (hasDecimal) {
-      setHasDecimal(false);
-    }
 
+    let result: string = '0';
     switch (lastOp) {
       case OpType.ADD:
-        setCurValue((storedValue + Number(curValue)).toString());
+        result = (storedValue + Number(curValue)).toString();
         break;
       case OpType.MULTI:
-        setCurValue((storedValue * Number(curValue)).toString());
+        result = (storedValue * Number(curValue)).toString();
         break;
       case OpType.SUB:
-        setCurValue((storedValue - Number(curValue)).toString());
+        result = (storedValue - Number(curValue)).toString();
         break;
       case OpType.DIV:
         if (curValue === '0') {
           SetValue(ErrorStr);
           return;
         }
-        setCurValue((storedValue / Number(curValue)).toString());
+        result = (storedValue / Number(curValue)).toString();
         break;
       case OpType.MOD:
-        setCurValue((storedValue % Number(curValue)).toString());
+        result = (storedValue % Number(curValue)).toString();
         break;
     }
+    if (hasDecimal) {
+      setHasDecimal(false);
+      result = TruncateDecimal(result, 10);
+    }
+    setCurValue(result);
     Clear(false);
   }
 
