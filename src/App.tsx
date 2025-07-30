@@ -12,15 +12,21 @@ const enum OpType {
   MOD = "%",
 }
 
+const ErrorStr = "ERROR";
+
 function App() {
 
   const [curValue, setCurValue] = useState<string>('0');
   const [storedValue, setStoredValue] = useState<number>(0);
   const [lastOp, setLastOp] = useState<OpType>(OpType.NONE);
 
+  let hasDecimal: boolean = false;
 
   function RemoveLast() {
     if (curValue === '0') return;
+    if (curValue === '.') {
+      hasDecimal = false;
+    }
     setCurValue(curValue.slice(0, -1))
   }
 
@@ -29,14 +35,35 @@ function App() {
     setLastOp(OpType.NONE);
     if (!all) return;
     setCurValue('0');
+    hasDecimal = false;
   }
 
   function SetValue(value: number | string) {
+
+    if (value === ErrorStr) {
+      setCurValue(ErrorStr);
+      return;
+    }
+
+    if (value === '.') {
+      if (hasDecimal) return;
+      hasDecimal = true;
+      setCurValue('0.');
+      return;
+    }
+
     if (curValue === '0') {
       setCurValue(value.toString());
-    } else {
-      setCurValue(curValue + value);
+      return;
     }
+
+    if (curValue === ErrorStr) {
+      const trimmedStr = curValue.slice(ErrorStr.length - 1, -1);
+      setCurValue(trimmedStr + value);
+      console.log(trimmedStr);
+      return;
+    }
+    setCurValue(curValue + value);
   }
 
   function SetOp(op: OpType) {
@@ -60,9 +87,9 @@ function App() {
         setCurValue((storedValue - Number(curValue)).toString());
         break;
       case OpType.DIV:
-        if (curValue == '0') {
-          Clear();
-          break;
+        if (curValue === '0') {
+          SetValue(ErrorStr);
+          return;
         }
         setCurValue((storedValue / Number(curValue)).toString());
         break;

@@ -106,6 +106,7 @@
 }
 
 .cur_value {
+  direction: ltr;
   font-size: 32px;
   display: block;
   width: fit-content;
