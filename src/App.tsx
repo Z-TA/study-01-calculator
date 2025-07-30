@@ -19,15 +19,12 @@ function App() {
   const [curValue, setCurValue] = useState<string>('0');
   const [storedValue, setStoredValue] = useState<number>(0);
   const [lastOp, setLastOp] = useState<OpType>(OpType.NONE);
-  const [hasPar, setHasPar] = useState<boolean>(false);
-
-  let hasDecimal: boolean = false;
-
+  const [hasDecimal, setHasDecimal] = useState<boolean>(false);
 
   function RemoveLast() {
     if (curValue === '0') return;
     if (curValue === '.') {
-      hasDecimal = false;
+      setHasDecimal(false);
     }
     setCurValue(curValue.slice(0, -1))
   }
@@ -37,21 +34,24 @@ function App() {
     setLastOp(OpType.NONE);
     if (!all) return;
     setCurValue('0');
-    hasDecimal = false;
+    setHasDecimal(false);
   }
 
   function SetValue(value: number | string) {
+
+    if (value === '.') {
+      if (curValue.includes('.')) {
+        setHasDecimal(true);
+        return;
+      }
+      if (hasDecimal) return;
+      setHasDecimal(true);
+    }
 
     if (value === ErrorStr) {
       setCurValue(ErrorStr);
       return;
     }
-
-    if (value === '(') {
-      setHasPar(true);
-    }
-
-    if (value === '.' && hasDecimal) return;
 
     if (curValue === '0' && value !== '.') {
       setCurValue(value.toString());
@@ -68,15 +68,20 @@ function App() {
   }
 
   function SetOp(op: OpType) {
+    if (hasDecimal) {
+      setHasDecimal(false);
+    }
     setLastOp(op);
     const v = Number(curValue);
     setStoredValue(v);
     setCurValue('0');
   }
 
-
-
   function ShowResult() {
+    if (hasDecimal) {
+      setHasDecimal(false);
+    }
+
     switch (lastOp) {
       case OpType.ADD:
         setCurValue((storedValue + Number(curValue)).toString());
@@ -100,7 +105,6 @@ function App() {
     }
     Clear(false);
   }
-
 
   function GetFullOp(): string {
     if (!lastOp) {
