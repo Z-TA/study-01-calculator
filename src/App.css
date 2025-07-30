@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Bitcount+Grid+Single:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap');
+
+#root {
+  margin: 0 auto;
+  padding: 16px;
+  padding-bottom: 14px;
+  background-color: black;
+  border-radius: 16px;
+  border-width: 4px;
+  border-color: rgb(52, 52, 52);
+  border-style: solid;
+}
+
+.btn {
+  font-size: 32px;
+  text-align: center;
+  border-radius: 8px;
+  width: 64px;
+  height: 64px;
+  margin: 4px;
+  padding: initial;
+  background-color: rgb(101, 101, 101);
+  color: black;
+  border-style: solid;
+  border-width: 3px 5px 5px 3px;
+  border-color: rgb(63, 63, 63);
+
+  font-family: "Playfair Display SC";
+  font-weight: 700;
+}
+
+.btn:hover {
+  background-color: rgb(180, 180, 180);
+}
+
+.ac_btn {
+  background-color: rgb(83, 87, 76);
+  border-color: rgb(61, 64, 56);
+}
+
+.ac_btn:hover {
+  background-color: rgb(143, 154, 123);
+}
+
+.op_btn {
+  background-color: rgb(76, 87, 87);
+  border-color: rgb(55, 64, 64);
+}
+
+.op_btn:hover {
+  background-color: rgb(127, 159, 159);
+}
+
+.rem_btn {
+  background-color: rgb(87, 76, 77);
+  border-color: rgb(58, 50, 51);
+}
+
+.rem_btn:hover {
+  background-color: rgb(165, 122, 126);
+}
+
+.rs_btn {
+  background-color: rgb(79, 76, 87);
+  border-color: rgb(49, 47, 55);
+}
+
+.rs_btn:hover {
+  background-color: rgb(143, 132, 175);
+}
+
+.value_display {
+  margin: 4px;
+  margin-bottom: 14px;
+  border-radius: 8px;
+  padding: 4px 10px;
+
+  border-style: solid;
+  border-width: 5px 3px 3px 5px;
+  border-color: rgb(16, 16, 16);
+  border-left-color: rgb(29, 29, 29);
+  border-top-color: rgb(29, 29, 29);
+
+  font-family: "Bitcount Grid Single", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  display: block;
+  direction: rtl;
+
+  position: relative;
+  overflow: hidden;
+  /* optional, in case the pseudo-element overflows */
+}
+
+.screen_bg {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url('https://img.freepik.com/premium-vector/led-screen-texture_97886-20479.jpg');
+  opacity: 0.1;
+  background-size: 400px;
+
+  background-color: rgb(17, 243, 6);
+  background-blend-mode: multiply;
+}
+
+.cur_value {
+  font-size: 32px;
+  display: block;
+  width: fit-content;
+  color: rgb(116, 232, 138);
+  text-shadow: 1px 1px 4px #000000, 0 0 8px #34db21;
+}
+
+.op_value {
+  direction: ltr;
+  font-size: 32px;
+  display: block;
+  width: fit-content;
+  color: rgb(113, 179, 152);
+  text-shadow: 1px 1px 4px #000000, 0 0 8px #83e578;
+}
+
+.btn_container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
