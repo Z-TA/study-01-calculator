@@ -18,6 +18,7 @@ function App() {
   const [storedValue, setStoredValue] = useState<number>(0);
   const [lastOp, setLastOp] = useState<OpType>(OpType.NONE);
 
+
   function RemoveLast() {
     if (curValue === '0') return;
     setCurValue(curValue.slice(0, -1))
@@ -59,6 +60,10 @@ function App() {
         setCurValue((storedValue - Number(curValue)).toString());
         break;
       case OpType.DIV:
+        if (curValue == '0') {
+          Clear();
+          break;
+        }
         setCurValue((storedValue / Number(curValue)).toString());
         break;
       case OpType.MOD:
