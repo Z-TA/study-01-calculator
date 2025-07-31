@@ -78,7 +78,7 @@ function App() {
       return;
     }
     let fullValue = curValue + value;
-    if (hasDecimal) {
+    if (hasDecimal || curValue.includes('.')) {
       fullValue = TruncateDecimal(fullValue, 10);
     }
     setCurValue(fullValue);
@@ -118,7 +118,7 @@ function App() {
         result = (storedValue % Number(curValue)).toString();
         break;
     }
-    if (hasDecimal) {
+    if (hasDecimal || result.includes('.')) {
       setHasDecimal(false);
       result = TruncateDecimal(result, 10);
     }
